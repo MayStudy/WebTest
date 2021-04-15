@@ -6,7 +6,7 @@ r.addBodyPara("typeId", "34")
 r.addBodyPara("convert_to_jpg", "0")
 r.addBodyPara("needMorePrecise", "0")
 res = r.post()
-# result = res.text
-# print(result)
+result = res.text
+print(result)
 body = res.json()['showapi_res_body']
 print(body['Result'])
