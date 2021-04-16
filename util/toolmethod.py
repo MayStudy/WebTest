@@ -2,7 +2,9 @@ import string
 import time
 from random import randrange
 import random
-
+import logging
+import logging.handlers
+import datetime
 from selenium import webdriver
 from lib.ShowapiRequest import ShowapiRequest
 from PIL import Image
@@ -43,6 +45,19 @@ def gen_random_str():
     rand_str = ''.join(random.sample(string.ascii_letters + string.digits,8))
     return rand_str
     driver.quit()
+def get_logger():
+
+    logger = logging.getLogger('mylogger')
+    logger.setLevel(logging.DEBUG)
+    rf_handler = logging.handlers.TimedRotatingFileHandler('all.log', when='midnight', interval=1, backupCount=7,
+                                                           atTime=datetime.time(0, 0, 0))
+    rf_handler.setFormatter(logging.Formatter("%(asctime)s-%(levelname)s-%(message)s"))
+    f_handler = logging.FileHandler('error.log')
+    f_handler.setLevel(logging.ERROR)
+    f_handler.setFormatter(logging.Formatter("%(asctime)s-%(levername)s-(filename)s[:%lineno)d]-%(message)s"))
+    logger.addHandler(rf_handler)
+    logger.addHandler(f_handler)
+    return logger
 if __name__ == '__main__':
     driver = webdriver.Chrome()
     driver.get('https://test-sso-java.seedland.cc/login')
