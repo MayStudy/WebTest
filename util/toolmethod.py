@@ -17,8 +17,12 @@ def get_code(driver,id):
     top = ce.location['y']
     right = ce.size['width'] + left
     height = ce.size['height'] + top
+    dpr = driver.execute_script('return window.devicePixelRatio')
+    print(dpr)
     im = Image.open(picture_name1)
-    img = im.crop(left,top,right,height)
+    img = im.crop(left*dpr,top*dpr,right*dpr,height*dpr)
+    # im = Image.open(picture_name1)
+    # img = im.crop(left,top,right,height)
     t = time.time()
     picture_name2 = path + '\\' + str(t) + '.png'
     img.save(picture_name2)
@@ -42,5 +46,5 @@ def gen_random_str():
 if __name__ == '__main__':
     driver = webdriver.Chrome()
     driver.get('https://test-sso-java.seedland.cc/login')
-    # get_code(driver)
-    gen_random_str()
+    get_code(driver,'vcode')
+    # gen_random_str()
